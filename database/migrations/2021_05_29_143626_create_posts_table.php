@@ -15,10 +15,13 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('user_id');
+            $table->bigInteger('category_id');
+            $table->boolean('status')->default(1);
             $table->string('title', 100);
-            $table->unsignedSmallInteger('user_id');
-            $table->unsignedSmallInteger('view_count');
+            $table->string('slug', 125);
             $table->text('description');
+            $table->unsignedSmallInteger('view_count');
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
         });

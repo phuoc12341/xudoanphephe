@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.categories.list');
     }
 
     /**
@@ -24,7 +25,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+
+        
+        return view('admin.categories.create');
     }
 
     /**
@@ -35,7 +38,12 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->name, $request->parentCategory);
+        
+        return response()->json([
+            'name' => 'Abigail',
+            'state' => 'CA',
+        ]);
     }
 
     /**

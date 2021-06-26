@@ -39,3 +39,14 @@ mix.copyDirectory('resources/fonts', 'public/fonts');
 mix.copyDirectory('resources/admin/css/plugins', 'public/admin/plugins');
 
 mix.copyDirectory('resources/admin/dist', 'public/admin/dist');
+
+
+const JsObjectBackEnd = [
+    'resources/admin/mix/js/category.js',
+];
+
+// Js Backend
+JsObjectBackEnd.forEach(item => {
+    mix.js(item, 'mix/admin/js');
+})
+
