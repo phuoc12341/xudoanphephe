@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repo;
+namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -61,20 +61,20 @@ class BaseRepository implements BaseRepositoryInterface
     /**
      * @param array $columns
      *
-     * @return boolean
+     * @return object
      */
     public function fetchAll(array $columns = ['*'])
-    {   
+    {
         return $this->model->get($columns);
     }
 
     /**
-     * @param string $sting
+     * @param int $id
      * @param array $columns
      *
      * @return object|null
      */
-    public function findById(string $id, array $columns = ['*'])
+    public function findById(int $id, array $columns = ['*'])
     {
         return $this->model->find($id, $columns);
     }

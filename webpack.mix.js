@@ -43,6 +43,7 @@ mix.copyDirectory('resources/admin/dist', 'public/admin/dist');
 
 const JsObjectBackEnd = [
     'resources/admin/mix/js/category.js',
+    'resources/admin/mix/js/utils/helper.js',
 ];
 
 // Js Backend

@@ -8,16 +8,16 @@ class RepositoryServiceProvider extends ServiceProvider
 {
     protected static $repositories = [
         'base' => [
-            \App\Repo\BaseRepositoryInterface::class,
-            \App\Repo\BaseRepository::class,
+            \App\Repositories\BaseRepositoryInterface::class,
+            \App\Repositories\BaseRepository::class,
         ],
         'user' => [
-            \App\Repo\UserRepositoryInterface::class,
-            \App\Repo\UserRepository::class,
+            \App\Repositories\UserRepositoryInterface::class,
+            \App\Repositories\UserRepository::class,
         ],
-        'password_reset_token' => [
-            \App\Repo\PasswordResetTokenRepositoryInterface::class,
-            \App\Repo\PasswordResetTokenRepository::class,
+        'categories' => [
+            \App\Repositories\CategoryRepositoryInterface::class,
+            \App\Repositories\CategoryRepository::class,
         ],
     ];
     

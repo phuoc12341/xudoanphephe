@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Repo\UserRepositoryInterface; 
+use App\Repositories\UserRepositoryInterface; 
 
 class UserService extends BaseService
 {

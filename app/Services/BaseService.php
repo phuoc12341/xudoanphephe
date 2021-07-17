@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Repo\BaseRepositoryInterface;
+use App\Repositories\BaseRepositoryInterface;
 
 abstract class BaseService
 {
@@ -33,7 +33,7 @@ abstract class BaseService
         return $this->repository->fetchAll($columns);
     }
 
-    public function findById(string $id, array $columns = ['*'])
+    public function findById(int $id, array $columns = ['*'])
     {
         return $this->repository->findById($id, $columns);
     }

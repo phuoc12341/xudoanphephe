@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repo;
+namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,17 +28,17 @@ interface BaseRepositoryInterface
     /**
      * @param array $columns
      *
-     * @return boolean
+     * @return object|null
      */
     public function fetchAll(array $columns = ['*']);
 
     /**
-     * @param string $id
+     * @param int $id
      * @param array $columns
      *
      * @return object|null
      */
-    public function findById(string $id, array $columns = ['*']);
+    public function findById(int $id, array $columns = ['*']);
 
     /**
      * @param string $id

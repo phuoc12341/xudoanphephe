@@ -16,6 +16,10 @@ export function put(resource = "", data) {
     return axios.put(resource, data);
 }
 
+export function patch(resource = "", data) {
+    return axios.patch(resource, data);
+}
+
 export function deleteAxios(resource = "") {
     return axios.delete(resource);
 }
