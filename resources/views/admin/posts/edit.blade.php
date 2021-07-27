@@ -8,7 +8,9 @@
 
 @section('content')
     <section class="content">
-        <form method="POST" enctype="multipart/form-data" action="{{ route('admin.posts.store') }}">
+        <form method="POST" enctype="multipart/form-data"
+            action="{{ route('admin.posts.update', ['post' => $post->id]) }}">
+            @method('PUT')
             @csrf
             <div class="row">
                 <div class="col-lg-9">
@@ -22,21 +24,21 @@
                                 <select class="form-control select2" id="select-create-category" name="category_id"
                                     style="width: 100%;">
                                     @include('admin.posts.option', ['categories' => $categories, 'level' => 0, 'categoryId'
-                                    => null])
+                                    => $post->category->id])
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="title">Tên bài viết</label>
-                                <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}"
+                                <input type="text" class="form-control" id="title" name="title" value="{{ $post->title }}"
                                     placeholder="Nhập tên bài viết">
                             </div>
-
                             <div class="form-group">
                                 <label for="title">Tag</label>
                                 <select class="select2" multiple="multiple" data-placeholder="Gắn tag cho bài viết"
                                     name="tags[]" style="width: 100%;">
                                     @foreach ($tags as $tag)
-                                        <option value="{{ $tag->id }}">{{ $tag->name }}
+                                        <option @if ($postTags->contains($tag->id)) selected="selected" @endif
+                                            value="{{ $tag->id }}">{{ $tag->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -44,13 +46,13 @@
 
                             <div class="form-group">
                                 <label for="title">Tự tạo slug</label>
-                                <input type="text" class="form-control" id="title" name="slug"
-                                    placeholder="Slug sẽ tự động tạo nếu bạn không nhập" value="{{ old('slug') }}">
+                                <input type="text" class="form-control" id="slug" name="slug"
+                                    placeholder="Slug sẽ tự động tạo nếu bạn không nhập" value="{{ $post->slug }}">
                             </div>
 
                             <div class="form-group">
                                 <label for="title">Nội dung bài viết</label>
-                                <textarea id="summernote" name="description" value="{{ old('description') }}"></textarea>
+                                <textarea id="summernote" name="description" value="{{ $post->description }}"></textarea>
                             </div>
                         </div>
                         <!-- /.card-body -->
@@ -75,8 +77,14 @@
                                     <i class="fas fa-times"></i>
                                 </span>
                                 <figure class="kv-product-image ratio-1-1">
-                                    <img src="{{ asset('assets/images/default-img.png') }}"
-                                        class="image image-contain default-img" id="preview-image">
+                                    @if ($post->image)
+                                        <img src="{{ asset("storage-images/{$post->image}") }}"
+                                            class="image image-contain default-img" id="preview-image">
+                                    @else
+                                        <img src="{{ asset('assets/images/default-img.png') }}"
+                                            class="image image-contain default-img" id="preview-image">
+                                    @endif
+
                                 </figure>
                                 <p class="py15">Khuyến khích sử dụng ảnh có tỉ lệ 16:9 (1920x1080), dung lượng không vượt
                                     quá
@@ -87,7 +95,7 @@
                                     <input type="file" id="upload-post-image" class="file-input" name="image"
                                         placeholder="" />
                                 </div>
-                                <input type="hidden" id="is-delete" name="is_delete" value="0" />
+                                <input type="hidden" id="is-delete-image" name="is_delete_image" value="0" />
                             </div>
                         </div>
                         <div class="card-footer text-right">
@@ -117,7 +125,8 @@
                 }
 
                 var $state = $(
-                    `<span class="${state.element.className}" style="--level: ${state.element.getAttribute('data-level')};">${state.element.text}</span>`
+                    `<span class="${state.element.className}"
+                                style="--level: ${state.element.getAttribute('data-level')};">${state.element.text}</span>`
                 );
 
                 return $state;
@@ -129,12 +138,16 @@
                 })
             })
 
-            // Summernote
-            $('#summernote').summernote({
-                height: 350,
-                minHeight: 200, // set minimum height of editor
-                maxHeight: 700,
-                lang: 'vi-VN'
+            var descriptionPost = {!! json_encode($post->description) !!};
+            $(function() {
+                // Summernote
+                $('#summernote').summernote({
+                    height: 350,
+                    minHeight: 200, // set minimum height of editor
+                    maxHeight: 700,
+                    lang: 'vi-VN',
+                })
+                $('#summernote').summernote('code', descriptionPost);
             })
         })
 

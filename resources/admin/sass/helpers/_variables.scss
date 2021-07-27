@@ -1,0 +1,219 @@
+/**
+ * Variables
+ * -------------------------------------------------- */
+
+//
+// Color system
+// border
+$border-gray: #e5e5e5;
+$border-gray-light: #dddddd;
+
+// color
+$white: #ffffff;
+$black: #111111;
+
+$gray-light: #999999;
+$gray-second: #E0E2E6;
+
+$red: #ed5353;
+
+$yellow-dark: #faca66;
+$yellow: #fffaef;
+
+// background
+$bg-gray: #f5f5f5;
+$bg-gray-light: #eeeeee;
+$bg-gray-lighter: #dddddd;
+$bg-blue-light: #f2f6f9;
+
+
+// border radius
+$border-radius-base: 4px;
+
+// font icon
+$font-icon: 'Font Awesome 5 Pro';
+$font-icon-solid: 'Font Awesome 5 Free';
+
+
+// stylelint-disable
+$white:    #fff !default;
+$gray-100: #f3f5f7 !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #868e96 !default;
+$gray-700: #5F6368 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black:    #000 !default;
+
+$grays: () !default;
+$grays: map-merge((
+    "100": $gray-100,
+    "200": $gray-200,
+    "300": $gray-300,
+    "400": $gray-400,
+    "500": $gray-500,
+    "600": $gray-600,
+    "700": $gray-700,
+    "800": $gray-800,
+    "900": $gray-900
+), $grays);
+
+$bg:    #F1F1F1 !default;
+$text:    #202124 !default;
+$text-second:    #5F6368 !default;
+$blue:    #008ED6 !default;
+$blue-brand:    #008ED6 !default;
+$blue-dark:    #0373DB !default;
+$blue-darken-5:    #036DD0 !default;
+$blue-darken-15:    #0362BA !default;
+$blue-lighten-15:   #4E9DE6 !default;
+$blue-focus:       #0078B6 !default;
+$blue-info:       #05B0E7 !default;
+$blue-info-darken-5:       #05A7DB !default;
+$blue-info-darken-15:       #0496C4 !default;
+$blue-info-lighten-15:       #50C8EE !default;
+$blue-light:       #DAF4FB !default;
+$indigo:  #6610f2 !default;
+$purple:  #6f42c1 !default;
+$pink:    #F84B5E !default;
+$red:     #dc3545 !default;
+$red-light:     #F2443C !default;
+$red-darken-5:     #E64139 !default;
+$red-darken-15:     #CE3A33 !default;
+$red-lighten-15:     #F67C76 !default;
+$error:     #F2443C !default;
+$danger:     #F2443C !default;
+$orange:  #F8AA09 !default;
+$orange-darken-5:  #F2AE20 !default;
+$orange-darken-15:  #D99C1D !default;
+$orange-lighten-15:  #FFCC64 !default;
+$yellow:  #ffc107 !default;
+$green:   #4BAE59 !default;
+$green-darken-5:   #00B12A !default;
+$green-darken-15:   #009F25 !default;
+$green-lighten-15:   #4CCF6B !default;
+$green-light:   #4CCF6B !default;
+$teal:    #20c997 !default;
+$cyan:    #17a2b8 !default;
+$link:    #0037F9 !default;
+$disable:    #747474 !default;
+$light-grey:    #F2F2F2 !default;
+$light-grey2:    #F9F9F9 !default;
+$dark-grey:    #F1F1F1 !default;
+$note:    #5F6368 !default;
+$hint:    #999 !default;
+$line-form:    #C3C3C3 !default;
+$line-main:    #D7D7D7 !default;
+$line-sub:    #E1E1E1 !default;
+$transparent: transparent !default;
+
+$colors: () !default;
+$colors: map-merge((
+    "transparent":           $transparent,
+    "bg":           $bg,
+    "text":         $text,
+    "text-second":  $text-second,
+    "blue":         $blue,
+    "blue-darken-5":         $blue-darken-5,
+    "blue-darken-15":         $blue-darken-15,
+    "blue-lighten-15":         $blue-lighten-15,
+    "blue-brand":   $blue-brand,
+    "blue-dark":    $blue-dark,
+    "blue-focus":   $blue-focus,
+    "blue-info":    $blue-info,
+    "blue-info-darken-5":    $blue-info-darken-5,
+    "blue-info-darken-15":    $blue-info-darken-15,
+    "blue-info-lighten-15":    $blue-info-lighten-15,
+    "indigo":       $indigo,
+    "purple":       $purple,
+    "pink":         $pink,
+    "red":          $red,
+    "red-darken-5":          $red-darken-5,
+    "red-darken-15":          $red-darken-15,
+    "red-lighten-15":          $red-lighten-15,
+    "red-light":    $red-light,
+    "danger":       $red-light,
+    "error":        $red-light,
+    "orange":       $orange,
+    "orange-darken-5":       $orange-darken-5,
+    "orange-darken-15":       $orange-darken-15,
+    "orange-lighten-15":       $orange-lighten-15,
+    "yellow":       $yellow,
+    "green":        $green,
+    "green-darken-5":        $green-darken-5,
+    "green-darken-15":        $green-darken-15,
+    "green-lighten-15":        $green-lighten-15,
+    "green-light":  $green-light,
+    "teal":         $teal,
+    "cyan":         $cyan,
+    "white":        $white,
+    "gray":         $gray-600,
+    "gray-dark":    $gray-800,
+    "link":         $link,
+    "disable":      $disable,
+    "note":         $note,
+    "hint":         $hint,
+    "line-form":    $line-form,
+    "line-main":    $line-main,
+    "line-sub":     $line-sub,
+    "border-main":     $line-sub,
+    "dark-grey":    $dark-grey,
+    "light-grey":   $light-grey,
+    "light-grey2":  $light-grey2,
+), $colors);
+
+$primary:       $blue !default;
+$secondary:     $green !default;
+$success:       $green !default;
+$info:          $cyan !default;
+$warning:       $yellow !default;
+$danger:        $red !default;
+$light:         $gray-100 !default;
+$dark:          $gray-800 !default;
+
+$theme-colors: () !default;
+$theme-colors: map-merge((
+    "primary":    $primary,
+    "secondary":  $secondary,
+    "success":    $success,
+    "info":       $info,
+    "warning":    $warning,
+    "danger":     $danger,
+    "light":      $light,
+    "dark":       $dark
+), $theme-colors);
+// stylelint-enable
+
+//Loop Color,Background Color
+@each $color-value in $colors {
+  .color-{
+    &#{nth($color-value,1)} {
+      color: nth($color-value,2) !important;
+    }
+  }
+  .bg-{
+    &#{nth($color-value,1)} {
+      background-color: nth($color-value,2) !important;
+    }
+  }
+}
+
+
+//Fontsize
+$font-size-small: 12px;
+$font-size-sm: 12px;
+$font-size-base: 13px;
+$font-size-regular: 16px;
+$font-size-m: 18px;
+$font-size-medium: 18px;
+$font-size-big: 20px;
+$font-size-b: 20px;
+$font-size-bigger: 24px;
+
+$font-size-sm: .875rem !default;
+$font-weight-normal: normal !default;
+$font-weight-bold: bold !default;
+

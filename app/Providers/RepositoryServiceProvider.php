@@ -19,6 +19,14 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Repositories\CategoryRepositoryInterface::class,
             \App\Repositories\CategoryRepository::class,
         ],
+        'posts' => [
+            \App\Repositories\PostRepositoryInterface::class,
+            \App\Repositories\PostRepository::class,
+        ],
+        'tags' => [
+            \App\Repositories\TagRepositoryInterface::class,
+            \App\Repositories\TagRepository::class,
+        ],
     ];
     
     /**

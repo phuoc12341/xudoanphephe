@@ -1,0 +1,165 @@
+//Spacing - Begin
+$spacing-values: (-1,0, 4, 5, 8, 10, 12, 15, 20, 25,30,35,40,45, 50, 100);
+@each $spacing-value in $spacing-values {
+  //Margin - Begin
+  .mt{
+    &#{$spacing-value} {
+      margin-top: #{$spacing-value}px !important;
+    }
+  }
+
+  .mb {
+    &#{$spacing-value} {
+      margin-bottom: #{$spacing-value}px !important;
+    }
+  }
+
+  .ml {
+    &#{$spacing-value} {
+      margin-left: #{$spacing-value}px !important;
+    }
+  }
+
+  .mr{
+    &#{$spacing-value} {
+      margin-right: #{$spacing-value}px !important;
+    }
+  }
+
+  .mx {
+    &#{$spacing-value} {
+      margin-left: #{$spacing-value}px !important;
+      margin-right: #{$spacing-value}px !important;
+    }
+  }
+
+  .my {
+    &#{$spacing-value} {
+      margin-top: #{$spacing-value}px !important ;
+      margin-bottom: #{$spacing-value}px !important ;
+    }
+  }
+
+  .m{
+    &#{$spacing-value} {
+      margin: #{$spacing-value}px !important ;
+    }
+  }
+  //Margin - End
+
+  //Padding - Begin
+  .pt {
+    &#{$spacing-value} {
+      padding-top: #{$spacing-value}px !important;
+    }
+  }
+
+  .pb {
+    &#{$spacing-value} {
+      padding-bottom: #{$spacing-value}px !important;
+    }
+  }
+
+  .pl {
+    &#{$spacing-value} {
+      padding-left: #{$spacing-value}px !important;
+    }
+  }
+
+  .pr {
+    &#{$spacing-value} {
+      padding-right: #{$spacing-value}px !important;
+    }
+  }
+
+  .px {
+    &#{$spacing-value} {
+      padding-left: #{$spacing-value}px !important;
+      padding-right: #{$spacing-value}px !important;
+    }
+  }
+
+  .py {
+    &#{$spacing-value} {
+      padding-top: #{$spacing-value}px !important ;
+      padding-bottom: #{$spacing-value}px !important ;
+    }
+  }
+  .p {
+    &#{$spacing-value} {
+      padding: #{$spacing-value}px !important ;
+    }
+  }
+  //Padding - Begin
+}
+//Spacing - End
+
+//Width
+$width-values: (25,35,50,60,65,70,90,100,110,120,135,150,160,180,200,250,260,300,400,500,550,600);
+@each $value in $width-values {
+  .max-width {
+    &#{$value} {
+      max-width: #{$value}px !important;
+    }
+  }
+  .min-width{
+    &#{$value} {
+      min-width: #{$value}px !important;
+    }
+  }
+  .max-height {
+    &#{$value} {
+      max-height: #{$value}px !important;
+    }
+  }
+  .min-height{
+    &#{$value} {
+      min-height: #{$value}px !important;
+    }
+  }
+  .width {
+    &#{$value} {
+      width: #{$value}px !important;
+    }
+  }
+  .height {
+    &#{$value} {
+      height: #{$value}px !important;
+    }
+  }
+}
+
+
+//Vertical align
+$vertical-align-values: (-1,-2,-3,-4,-5,0,1,2,3,4,5);
+@each $vertical-align-value in $vertical-align-values {
+    .vertical-align{
+      &#{$vertical-align-value}{
+        vertical-align: #{$vertical-align-value}px !important;
+      }
+    }
+}
+
+//Icon Size
+$icon-values: (10,12,15,16,18,20,22,25,30,35,40,45);
+@each $icon-value in $icon-values {
+    .icon-size-{
+      &#{$icon-value}{
+        width: #{$icon-value}px !important;
+        height: #{$icon-value}px !important;
+        font-size: 0;
+        display: inline-block;
+        vertical-align: -2px;
+      }
+    }
+}
+
+// font size
+$font-size-values: (10,12,13,14,16,18,20,24);
+@each $font-size in $font-size-values {
+  .font-size-{
+    &#{$font-size}{
+      font-size: #{$font-size}px !important;
+    }
+  }
+}

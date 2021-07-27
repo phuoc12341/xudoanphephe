@@ -12,3 +12,14 @@
 // // Bootstrap
 // @import '~bootstrap/scss/bootstrap';
 
+@import 'abstracts/mixins';
+
+@import "helpers/extends";
+@import "helpers/typograph";
+@import "helpers/variables";
+@import "helpers/switch";
+@import "helpers/functions";
+
+//Pages
+@import "pages/page-create";
+@import "pages/page-common";

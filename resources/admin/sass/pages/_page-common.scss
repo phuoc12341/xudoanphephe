@@ -1,0 +1,9 @@
+a.category-name {
+    color: inherit;
+    text-decoration: none;
+    padding-left: calc(50px * var(--level));
+}
+
+span.level-option {
+    padding-left: calc(2em * var(--level));
+}

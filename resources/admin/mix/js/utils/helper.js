@@ -77,3 +77,36 @@ export function getRoute (str, params) {
     return str
 }
 
+export function validateImageUpload(fileInput) {
+    var filePath = fileInput.value;
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i
+
+    if(!allowedExtensions.exec(filePath)){
+        notify('error', 'Vui lòng tải lên tệp có phần mở rộng: .jpeg/.jpg/.png/.gif')
+        fileInput.value = ''
+        return false;
+    }
+
+    return true
+}
+
+export function validateSizeFileUpload(file, maxSize = 10) {
+    var FileSize = file.files[0].size / 1024 / 1024; // in MB
+    if (FileSize > maxSize) {
+        file.value = "";
+
+        notify('error', `Vui lòng chọn kích cỡ ảnh không quá ${maxSize}Mb`)
+        return false;
+    } else {
+        return true;
+    }
+}
+
+export function imagesPreview(input, placeToInsertImagePreview) {
+    var reader = new FileReader();
+    reader.onload = function() {
+        placeToInsertImagePreview.attr('src', reader.result)
+    }
+    reader.readAsDataURL(input.files[0]);
+}
+

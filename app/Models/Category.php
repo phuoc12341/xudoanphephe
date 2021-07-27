@@ -66,4 +66,9 @@ class Category extends Model
     {
         return $query->where('status', self::ACTIVE);
     }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }

@@ -28,10 +28,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $listAllCategory = $this->categoryService->fetchAll(['id', 'name', 'status']);
+        $categories = $this->categoryService->fetchAll(['id', 'name', 'status']);
 
         $data = [
-            'listAllCategory' => $listAllCategory,
+            'categories' => $categories,
         ];
 
         return view('admin.categories.list', $data);
@@ -104,7 +104,7 @@ class CategoryController extends Controller
                 [
                     'data' => [
                         'parent_id' => $category->parent_id,
-                        'categoriesCanBeParennt' => $listCategoryCanBeParent,
+                        'categoriesCanBeParent' => collect($listCategoryCanBeParent)->pluck('id')->toArray(),
                     ]
                 ]
             );
@@ -123,7 +123,7 @@ class CategoryController extends Controller
         $result = $this->categoryService->update($id, $params);
 
         if ($result === 0) {
-            return response()->json([], Response::HTTP_NOT_FOUND);
+            return response()->json([], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         return response()->json([], Response::HTTP_OK);

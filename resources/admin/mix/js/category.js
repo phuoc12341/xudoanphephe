@@ -9,11 +9,11 @@ const Category = {
 
                 if (response.status = 200) {
                     let listAllCategory = response.data.data
-                    $('#select-create-category').empty()
-                    $('#select-create-category').append(`<option selected="selected" value="">- Lựa chọn -</option>`);
+                    $('#select-category').empty()
+                    $('#select-category').append(`<option selected="selected" value="">- Lựa chọn -</option>`);
                     
                     $.each(listAllCategory, function (index, element) {
-                        $('#select-create-category').append(`<option value="${element.id}">${element.name}</option>`);
+                        $('#select-category').append(`<option value="${element.id}">${element.name}</option>`);
                     });
                 }
             } catch (error) {
@@ -22,26 +22,37 @@ const Category = {
         });
     },
 
-    async create() {
-        $('#create-category-btn').on('click', async function (e) {
-            const categoryName = $('#input-create-category-name').val()
-            const parentCategory = $('#select-create-category').val()
-            let paramsObj = {
-                'name': categoryName,
-                'parent_id': parentCategory,
-            };
+    async updateOrCreate() {
+        $('#create-or-update-category-btn').on('click', async function (e) {
+            if ($(this).data('method') === 'create') {
+                Category.create()
+            }
 
-            try {
-                const response = await ApiServicePost(route.categories.store, paramsObj)
-                if (response.status = 200) {
-                    $('#modal-create-category').modal('hide')
-                    notify('success', 'Tạo danh mục thành công')
-                    reloadPage()
-                }
-            } catch (error) {
-                notify('error', 'Không tạo được danh mục')
+            if ($(this).data('method') === 'update') {
+                console.log(4534)
+                Category.update()
             }
         });
+    },
+
+    async create() {
+        const categoryName = $('#input-category-name').val()
+        const parentCategory = $('#select-category').val()
+        let paramsObj = {
+            'name': categoryName,
+            'parent_id': parentCategory,
+        };
+
+        try {
+            const response = await ApiServicePost(route.categories.store, paramsObj)
+            if (response.status = 200) {
+                $('#modal-category').modal('hide')
+                notify('success', 'Tạo danh mục thành công')
+                reloadPage()
+            }
+        } catch (error) {
+            notify('error', 'Không tạo được danh mục')
+        }
     },
 
     async switchStatus() {
@@ -87,22 +98,47 @@ const Category = {
 
     async edit() {
         $('.edit-category').on('click', async function () {
+            $('#create-or-update-category-btn').attr('data-method', 'update')
+            $('#modal-title').text('Sửa danh mục')
+            $('#input-category-name').val($(this).data('name'))
+            
             let id = $(this).data('id')
-            $('#edit-category-btn').data('id', id)
+            $('#create-or-update-category-btn').data('id', id)
 
             try {
                 const response = await ApiServiceGet(getRoute(route.categories.edit, [id]))
                 if (response.status = 200) {
-                    $('#modal-edit-category #input-edit-category-name').val(response.data.data.name)
-                    $('#select-edit-category').empty()
-                    $('#select-edit-category').append(`<option value="">- Lựa chọn -</option>`);
-                    $.each(response.data.data.categoriesCanBeParennt, function (index, element) {
-                        if (element.id === response.data.data.parent_id) {
-                            $('#select-edit-category').append(`<option value="${element.id}" selected="selected">${element.name}</option>`);
-                        } else {
-                            $('#select-edit-category').append(`<option value="${element.id}">${element.name}</option>`);
+                    let arrCategoryIdCanBeParent = response.data.data.categoriesCanBeParent
+
+                    $.each($('#select-category option'), function (index, element) {
+                        let categoryId = parseInt(element.getAttribute('value'))
+
+                        if (isNaN(categoryId)) {
+                            categoryId = null
+                        }
+                        
+                        if (arrCategoryIdCanBeParent.indexOf(categoryId) == -1 && index !== 0) {
+                            $(this).prop('disabled', true)
+                        }
+
+                        if (categoryId === response.data.data.parent_id) {
+                            $(this).prop('selected', 'selected').trigger('change')
                         }
                     });
+
+                    $('#modal-category').on('hidden.bs.modal', function () {
+                        $('#select-category option').each(function () {
+                            $(this).prop('disabled', false)
+                            $(this).removeProp('selected')
+                        });
+                        
+                        $('#modal-title').text('Thêm mới danh mục')
+                        $('#input-category-name').val('')
+                        $('#create-or-update-category-btn').attr('data-method', 'create')
+                        $('#create-or-update-category-btn').removeAttr('data-id')
+
+                    });
+                    
                 }
             } catch (error) {
                 console.log(error)
@@ -112,36 +148,34 @@ const Category = {
     },
 
     async update() {
-        $('#edit-category-btn').on('click', async function () {
-            let id = $(this).data('id')
-            const categoryName = $('#input-edit-category-name').val()
-            const parentCategory = $('#select-edit-category').val()
+        let id = $('#create-or-update-category-btn').data('id')
+        const categoryName = $('#input-category-name').val()
+        const parentCategory = parseInt($('#select-category').val())
 
-            let paramsObj = {
-                'name': categoryName,
-                'parent_id': parentCategory,
-            };
-
-            try {
-                const response = await ApiServicePatch(getRoute(route.categories.update, [id]), paramsObj)
-                if (response.status = 200) {
-                    $('#modal-edit-category').modal('hide')
-                    notify('success', 'Cập nhật danh mục thành công')
-                    reloadPage()
-                }
-            } catch (error) {
-                notify('error', 'Cập nhật danh mục thất bại')
+        let paramsObj = {
+            'name': categoryName,
+            'parent_id': parentCategory,
+        };
+        try {
+            const response = await ApiServicePatch(getRoute(route.categories.update, [id]), paramsObj)
+            if (response.status = 200) {
+                $('#modal-category').modal('hide')
+                notify('success', 'Cập nhật danh mục thành công')
+                reloadPage()
             }
-        });
+        } catch (error) {
+            notify('error', 'Cập nhật danh mục thất bại')
+        }
     },
 
     init() {
-        this.getAllCategory()
-        this.create()
+        // this.getAllCategory()
+        // this.create()
+        // this.update()
+        this.updateOrCreate()
         this.switchStatus()
         this.delete()
         this.edit()
-        this.update()
     }
 };
 $(async function () {

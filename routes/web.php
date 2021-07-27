@@ -29,10 +29,18 @@ Route::get('/dashboard', function () {
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::resources([
-        'posts'=> PostController::class,
-        'categories' => CategoryController::class,
-    ]);
+    Route::prefix('categories')->name('categories.')->group(function () {
+        Route::get('/', [CategoryController::class, 'index'])->name('index');
+    });
+    Route::prefix('posts')->name('posts.')->group(function () {
+        Route::get('/', [PostController::class, 'index'])->name('index');
+        Route::get('create', [PostController::class, 'create'])->name('create');
+        Route::post('/', [PostController::class, 'store'])->name('store');
+        Route::post('status', [PostController::class, 'switchStatus'])->name('switch_status');
+        Route::delete('{post}', [PostController::class, 'destroy'])->name('destroy');
+        Route::get('{post}/edit', [PostController::class, 'edit'])->name('edit');
+        Route::put('{post}', [PostController::class, 'update'])->name('update');
+    });
 });
 
 

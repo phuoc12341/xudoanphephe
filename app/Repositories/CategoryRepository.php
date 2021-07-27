@@ -28,6 +28,11 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         return $this->model->query();
     }
 
+    public function fetchAll(array $columns = ['*'])
+    {
+        return $this->model->whereNull('parent_id')->with('children')->get($columns);
+    }
+
     public function switchActiveRecursiveParent(int $categoryId, int $status)
     {
         $rawQuery = "WITH RECURSIVE parent_cte AS (
