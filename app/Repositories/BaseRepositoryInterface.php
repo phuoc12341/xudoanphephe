@@ -23,7 +23,7 @@ interface BaseRepositoryInterface
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function paginateList(int $page = null, array $columns = ['*'], string $orderBy = 'updated_at', string $orderDes = 'desc');
+    public function paginateList(array $columns = ['*'], string $orderBy = 'updated_at', string $orderDes = 'desc');
 
     /**
      * @param array $columns

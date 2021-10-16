@@ -16,11 +16,11 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
             $table->bigInteger('category_id');
             $table->boolean('status')->default(Post::ACTIVE);
             $table->string('title', 100);
             $table->string('slug', 125);
+            $table->unsignedSmallInteger('order')->nullable()->default(null);
             $table->string('image', 2048)->nullable();
             $table->text('description');
             $table->unsignedSmallInteger('view')->default(0);

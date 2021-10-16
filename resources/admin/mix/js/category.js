@@ -1,5 +1,5 @@
 import { post as ApiServicePost, get as ApiServiceGet, deleteAxios as ApiServiceDelete, patch as ApiServicePatch } from "./services/api";
-import { notify, reloadPage, countSubstrings, getRoute} from './utils/helper';
+import { notify, reloadPage, getRoute, onlyPermitNumber} from './utils/helper';
 
 const Category = {
     async getAllCategory() {
@@ -168,6 +168,49 @@ const Category = {
         }
     },
 
+    initOrderInput() {
+        $(".order-counter").on('keydown', function (e) {
+            onlyPermitNumber(e)
+        });
+    },
+
+    updateOrder() {
+        $('.order-counter').on('focusout', async function () {
+            await Category.__updateOrderRequest($(this));
+        });
+        $('.order-counter').on('keyup', async function (event) {
+            if (event.keyCode === 13) {
+                $(this).unbind('focusout');
+               await Page.__updateRankRequest($(this));
+            }
+        })
+    },
+    async __updateOrderRequest(element) {
+        let currentOrder = parseInt(element.val());
+        let oldOrder = parseInt(element.data('old-order')) ? parseInt(element.data('old-order')) : NaN;
+        if (currentOrder === oldOrder) {
+            return ;
+        }
+        let request = {
+            order: currentOrder,
+            id: element.data('id')
+        };
+        console.log(request)
+        $('.order-counter').attr('disabled', true);
+
+        try {
+            const response = await ApiServicePatch(route.categories.order, request)
+            console.log(response)
+            if (response.status = 200) {
+                notify('success', 'Thay đổi thứ tự bài viết thành công')
+                // reloadPage()
+            }
+        } catch (error) {
+            notify('error', 'Không thể thay đổi thứ tự bài viết này')
+        }
+    },
+
+
     init() {
         // this.getAllCategory()
         // this.create()
@@ -176,6 +219,8 @@ const Category = {
         this.switchStatus()
         this.delete()
         this.edit()
+        this.initOrderInput()
+        this.updateOrder()
     }
 };
 $(async function () {

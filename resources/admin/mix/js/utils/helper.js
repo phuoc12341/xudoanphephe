@@ -110,3 +110,41 @@ export function imagesPreview(input, placeToInsertImagePreview) {
     reader.readAsDataURL(input.files[0]);
 }
 
+export function removeXss(input) {
+    let div = document.createElement("div");
+    div.innerHTML = input;
+    let text =  div.textContent || div.innerText || "";
+    return text;
+}
+
+export function onlyPermitNumber(e) {
+    // Allow: backspace, delete, tab, escape, enter and .
+    if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
+    // Allow: Ctrl+A
+    (e.keyCode == 65 && e.ctrlKey === true) ||
+    // Allow: home, end, left, right
+    (e.keyCode >= 35 && e.keyCode <= 39)) {
+    // let it happen, don't do anything
+    return;
+    }
+    // Ensure that it is a number and stop the keypress
+    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode >
+        105)) {
+    e.preventDefault();
+    }
+}
+
+export function getKeyCode(event) {
+    let code
+
+    if (event.key !== undefined) {
+        code = event.key;
+    } else if (event.keyIdentifier !== undefined) {
+        code = event.keyIdentifier;
+    } else if (event.keyCode !== undefined) {
+        code = event.keyCode;
+    }
+
+    return code
+}
+

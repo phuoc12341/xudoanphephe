@@ -8,7 +8,52 @@
 
 @section('content')
     <div class="row">
-        <div class="col-12">
+        <div class="col-lg-3">
+            <div class="card card-primary card-outline">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="title">Lọc theo</label>
+                    </div>
+                    <div class="form-group">
+
+                        <select class="select2 status" name="tags[]" style="width: 100%;">
+                            <option selected="selected" value="">- Trạng thái -</option>
+                            <option value="0">Tắt hiển thị</option>
+                            <option value="1">Bật hiển thị</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group d-flex justify-content-between align-items-center">
+                        <a href="javascript:void(0)" class="card-link">Xóa</a>
+                        <button type="button" class="btn btn-success float-right">Áp dụng</button>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card -->
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="title">Danh mục</label>
+                    </div>
+                    <div class="form-group">
+                        <select class="select2 category" name="tags[]" style="width: 100%;">
+                            <option selected="selected" value="">- Lựa chọn -</option>
+                            @include('admin.posts.option', ['categories' => $categories, 'level' => 0, 'categoryId'
+                            => null])
+                        </select>
+                    </div>
+
+                    <div class="form-group d-flex justify-content-between align-items-center">
+                        <a href="javascript:void(0)" class="card-link">Xóa</a>
+                        <button type="button" class="btn btn-success float-right">Áp dụng</button>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col-md-6 -->
+        <div class="col-lg-9">
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">DataTable with minimal features & hover style</span>
@@ -26,10 +71,7 @@
                                     Tên bài viết
                                 </th>
                                 <th>
-                                    Danh mục
-                                </th>
-                                <th>
-                                    Tag
+                                    Thứ tự
                                 </th>
                                 <th>
                                     TG tạo
@@ -48,21 +90,18 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a>
-                                            {{ $post->category->name }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        @foreach ($post->tags as $tag)
-                                            <span class="badge badge-primary">{{ $tag->name }}</span>
-                                        @endforeach
+                                        <input type="text"
+                                            class="form-control form-control-border bg-transparent text-center order-counter"
+                                            placeholder="--" value="{{ $post->order }}"
+                                            data-old-order="{{ $post->order }}" data-id="{{ $post->id }}"
+                                            onfocus="this.placeholder = ''" onblur="this.placeholder = '--'">
                                     </td>
                                     <td>
                                         <a>
                                             {{ $post->created_at }}
                                         </a>
                                     </td>
-                                    <td class="project-actions">
+                                    <td class="project-actions text-nowrap">
 
                                         <a class="btn btn-outline-warning btn-sm"
                                             href="{{ route('admin.posts.edit', ['post' => $post->id]) }}">
@@ -128,8 +167,35 @@
     <script src="{{ asset('admin/plugins/select2/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('mix/admin/js/post.js') }}"></script>
     <script>
-        var route = {!! json_encode($routeNames) !!}
-        console.log(route)
+        $(function() {
+            $('.select2.status').select2({
+                minimumResultsForSearch: -1
+            })
+        })
+
+        $(function() {
+            $('.select2.category').select2({
+                templateResult: formatState
+            })
+        })
+
+        function formatState(state) {
+            if (!state.id) {
+                return state.text;
+            }
+
+            var $state = $(
+                `<span class="${state.element.className}" style="--level: ${state.element.getAttribute('data-level')};">${state.element.text}</span>`
+            );
+
+            return $state;
+        };
+
+        $(function() {
+            $('.select2').select2({
+                templateResult: formatState
+            })
+        })
 
         $(document).ready(function() {
             $('[data-toggle="tooltip"]').tooltip();

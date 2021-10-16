@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -31,6 +32,7 @@ class Post extends Model
         'status',
         'description',
         'image',
+        'order',
         'view',
     ];
 
@@ -45,5 +47,44 @@ class Post extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function menu()
+    {
+        return $this->morphMany(Menu::class, 'menuable');
+    }
+
+    /**
+     * Get the post's link.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getLinkAttribute()
+    {
+        return route('posts.show', ['slug' => $this->slug, 'post' => $this->id]);
+    }
+
+    /**
+     * Get the post's link.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getImagePathAttribute()
+    {
+        return $this->image ? asset("storage-images/{$this->image}") : asset('assets/images/default-img.png');
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->locale('vi')->isoFormat('D/M/YYYY');
+    }
+
+    public function getDetailUpdatedAtAttribute($value)
+    {
+        $castedTime  = Carbon::parse($value)->locale('vi')->isoFormat('dddd, D/M/YYYY HH:mm');
+
+        return ucfirst($castedTime) . ' (GMT+7)';
     }
 }

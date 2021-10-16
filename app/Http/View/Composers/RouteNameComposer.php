@@ -19,10 +19,19 @@ class RouteNameComposer
                 'destroy' => route('categories.destroy', ['id' => '?']),
                 'edit' => route('categories.edit', ['id' => '?']),
                 'update' => route('categories.update', ['id' => '?']),
+                'order' => route('categories.update_order'),
             ],
             'posts' => [
                 'status' => route('posts.switch_status'),
+                'order' => route('posts.update_order'),
                 'destroy' => route('posts.destroy', ['id' => '?']),
+            ],
+            'pages' => [
+                'destroy' => route('pages.destroy', ['id' => '?']),
+            ],
+            'menus' => [
+                'store' => route('menus.store'),
+                'update' => route('menus.update', ['id' => '?']),
             ],
         ];
     }

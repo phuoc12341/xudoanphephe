@@ -19,6 +19,7 @@ class CreateCategoriesTable extends Migration
             $table->string('name', 75);
             $table->string('slug', 100);
             $table->boolean('status')->default(1);
+            $table->unsignedSmallInteger('order')->nullable()->default(null);
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
         });

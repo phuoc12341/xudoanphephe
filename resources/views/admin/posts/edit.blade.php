@@ -20,12 +20,38 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label>Chọn danh mục</label>
-                                <select class="form-control select2" id="select-create-category" name="category_id"
-                                    style="width: 100%;">
-                                    @include('admin.posts.option', ['categories' => $categories, 'level' => 0, 'categoryId'
-                                    => $post->category->id])
-                                </select>
+                                <div class="row">
+                                    <div class="col-9">
+                                        <label>Chọn danh mục</label>
+                                        <select class="form-control select2" id="select-create-category" name="category_id"
+                                            style="width: 100%;">
+                                            @include('admin.posts.option', ['categories' => $categories, 'level' => 0,
+                                            'categoryId'
+                                            => $post->category->id])
+                                        </select>
+                                    </div>
+                                    <div class="col-3">
+                                        <label>Thứ tự</label>
+                                        <div class="input-group">
+                                            <span class="input-group-prepend">
+                                                <button type="button" class="btn btn-outline-secondary btn-number"
+                                                    disabled="disabled" data-type="minus" data-field="order">
+                                                    <span class="fa fa-minus"></span>
+                                                </button>
+                                            </span>
+                                            <input type="text" name="order" class="form-control text-center input-number"
+                                                value="{{ $post->order }}" min="1" max="10" placeholder="--"
+                                                onfocus="this.placeholder = ''" onblur="this.placeholder = '--'">
+
+                                            <span class="input-group-append">
+                                                <button type="button" class="btn btn-outline-secondary btn-number"
+                                                    data-type="plus" data-field="order">
+                                                    <span class="fa fa-plus"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="title">Tên bài viết</label>
@@ -77,14 +103,8 @@
                                     <i class="fas fa-times"></i>
                                 </span>
                                 <figure class="kv-product-image ratio-1-1">
-                                    @if ($post->image)
-                                        <img src="{{ asset("storage-images/{$post->image}") }}"
-                                            class="image image-contain default-img" id="preview-image">
-                                    @else
-                                        <img src="{{ asset('assets/images/default-img.png') }}"
-                                            class="image image-contain default-img" id="preview-image">
-                                    @endif
-
+                                    <img src="{{ $post->imagePath }}" class="image image-contain default-img"
+                                        id="preview-image">
                                 </figure>
                                 <p class="py15">Khuyến khích sử dụng ảnh có tỉ lệ 16:9 (1920x1080), dung lượng không vượt
                                     quá
@@ -125,8 +145,7 @@
                 }
 
                 var $state = $(
-                    `<span class="${state.element.className}"
-                                style="--level: ${state.element.getAttribute('data-level')};">${state.element.text}</span>`
+                    `<span class="${state.element.className}" style="--level: ${state.element.getAttribute('data-level')};">${state.element.text}</span>`
                 );
 
                 return $state;

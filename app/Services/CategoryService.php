@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Models\Category;
+use App\Repositories\CategoryRepository;
 use App\Repositories\CategoryRepositoryInterface;
+use Illuminate\Support\Arr;
 
 class CategoryService extends BaseService
 {
@@ -37,5 +39,27 @@ class CategoryService extends BaseService
     public function getCategoriesCanBeParent(int $id)
     {
         return $this->categoryRepository->getCategoriesCanBeParent($id);
+    }
+
+    public static function getParentAndRecursiveChildIds(int $id)
+    {
+        return Arr::pluck(CategoryRepository::getParentAndRecursiveChild($id), 'id');
+    }
+
+    public function getHomeCategories()
+    {
+        return $this->categoryRepository->getHomeCategories();
+    }
+
+    public static function getTotalPostByCategoryId(int $id)
+    {
+        $result = CategoryRepository::getTotalPostByCategoryId($id);
+
+        return Arr::pluck($result, 'total_post')[0];
+    }
+
+    public function getAdminCategories()
+    {
+        return $this->categoryRepository->getAdminCategories(['id', 'name', 'status', 'order']);
     }
 }

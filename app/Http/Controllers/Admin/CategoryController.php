@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CreateOrUpdateCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use App\Models\Menu;
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -28,7 +29,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = $this->categoryService->fetchAll(['id', 'name', 'status']);
+        // $categories = $this->categoryService->getAdminCategories();
+        $categories = $this->categoryService->getModel()->whereNull('parent_id')->get();
 
         $data = [
             'categories' => $categories,
@@ -78,9 +80,18 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show(Request $request, $slug, $id)
     {
-        //
+        $topMenu = Menu::whereNull('parent_id')->where('active_top', Menu::TOP_MENU)->first();
+        
+        $category = $this->categoryService->findById($id);
+
+        $data = [
+            'categories' => $category,
+            'topMenu' => $topMenu,
+        ];
+
+        return view('web.category-detail', $data);
     }
 
     /**
@@ -161,5 +172,66 @@ class CategoryController extends Controller
         $this->categoryService->switchCategoryStatus($params['id'], $params['status']);
 
         return response()->json([], Response::HTTP_OK);
+    }
+
+    public function updateOrder(Request $request)
+    {
+        $params = $request->only('id', 'order');
+        $category = $this->categoryService->findById($params['id']);
+        $currentOrder = $category->order;
+        
+        $orderParam = $this->reIndexOrder($params['order'], $currentOrder);
+
+        $data = [
+            'order' => $orderParam,
+        ];
+
+        $result = $this->categoryService->update($params['id'], $data);
+
+        if ($result === false) {
+            return response()->json([], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        return response()->json([], Response::HTTP_OK);
+    }
+
+    private function reIndexOrder(int $orderParam = null, int $currentOrder = null)
+    {
+        $maxOrder = Category::max('order');
+        // dd($maxOrder, ++$maxOrder);
+        if (is_null($maxOrder)) {
+            return 1;
+        }
+
+        if (is_null($orderParam)) {
+            $this->categoryService->getModel()->where('order', '>', $currentOrder)->decrement('order');
+
+            return $orderParam;
+        }
+
+        if ($orderParam > $maxOrder) {
+            if (is_null($currentOrder)) {
+                return ++$maxOrder;
+            }
+
+            $this->categoryService->getModel()->where('order', '>', $currentOrder)->decrement('order');
+
+            return $maxOrder;
+        }
+        
+        if ($orderParam <= $maxOrder) {
+            if (is_null($currentOrder)) {
+                $this->categoryService->getModel()->where('order', '>=', $orderParam)->increment('order');
+
+                return $orderParam;
+            }
+
+            $this->categoryService->getModel()->where('order', '>=', $orderParam)->where('order', '<', $currentOrder)->increment('order');
+
+            return $orderParam;
+        }
+
+
+        return $orderParam > $maxOrder ? ++$maxOrder : $orderParam;
     }
 }

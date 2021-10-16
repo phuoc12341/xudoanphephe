@@ -1,0 +1,140 @@
+ul.kv-setting-menu-list {
+  justify-content: flex-start;
+  margin: 0;
+
+  li {
+    text-align: center;
+
+    + li {
+      margin: 0 0 0 15px
+    }
+
+    img {
+      margin: 0 0 5px
+    }
+
+    .custom-control {
+      padding: 0 0 20px;
+      text-align: center
+    }
+
+    label.custom-control-label {
+      font-size: 12px;
+
+      &::before,
+      &::after {
+        // top: inherit;
+        top: 150%;
+        bottom: 0;
+        left: 50%;
+        @include translate(-50%, 0);
+      }
+    }
+  }
+}
+
+div.collapse-wrapper {
+    .cover-menu {
+      border: 1px solid $line-main;
+    }
+    
+    .menu-selection-search {
+      position: relative;
+      border: 1px solid $line-main;
+      border-radius: 4px 4px 0 0;
+      overflow: hidden;
+
+      &:after {
+        content: "\f002";
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: $font-size-regular;
+        font-family: "Font Awesome\ 5 Free";
+        font-weight: 900;
+      }
+
+      input.form-control {
+        border: none;
+        padding: 10px 10px 10px 40px;
+      }
+    }
+
+    li.list-group-item {
+      padding: 7px 12px;
+      margin-bottom: 0;
+      border: none;
+
+      a {
+        margin-right: 8px;
+        display: inline-block;
+        position: relative;
+        width: 22px;
+        height: 22px;
+        font-size: 0;
+
+        i {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          line-height: 2;
+          font-size: $font-size-regular;
+          color: $text;
+
+          &.fa-check {
+            color: $green
+          }
+        }
+      }
+
+      .item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+
+       
+    ul.list-group {
+      li.list-group-item.child {
+        &:first-child {
+          padding-top: 8px;
+          margin-top: 8px;
+        }
+
+        &:last-child {
+          padding-bottom: 0;
+        }
+      }
+    }
+        
+  
+      &.search-static-page {
+        .menu-selection-search-result {
+          border-top: 1px solid $line-main;
+          border-radius: 4px;
+        }
+      }
+  
+      .menu-selection-search-result {
+        border: 1px solid $line-main;
+        border-top: none;
+        max-height: 240px;
+        overflow-y: auto;
+        border-radius: 0 0 4px 4px;
+        @include scroll-bar();
+  
+        .search-no-result {
+          p {
+            font-size: 12px;
+            color: $red;
+          }
+        }
+      }
+}
+
+#menu-setting {
+  max-width: 100%;
+}

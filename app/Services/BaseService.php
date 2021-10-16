@@ -23,9 +23,9 @@ abstract class BaseService
         return $this->repository->fetchList($columns, $offset);
     }
 
-    public function paginateList(int $page = null, array $columns = ['*'], string $orderBy = 'updated_at', string $orderDes = 'desc')
+    public function paginateList(array $columns = ['*'], string $orderBy = 'updated_at', string $orderDes = 'desc')
     {
-        return $this->repository->paginateList($page, $columns, $orderBy, $orderDes);
+        return $this->repository->paginateList($columns, $orderBy, $orderDes);
     }
 
     public function fetchAll(array $columns = ['*'])

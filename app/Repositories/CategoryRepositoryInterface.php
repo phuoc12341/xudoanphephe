@@ -19,4 +19,12 @@ interface CategoryRepositoryInterface extends BaseRepositoryInterface
     public function checkCategoryCanDelete(int $id);
 
     public function getCategoriesCanBeParent(int $id);
+
+    public static function getParentAndRecursiveChild(int $id);
+
+    public function getHomeCategories();
+
+    public static function getTotalPostByCategoryId(int $categoryId);
+
+    public function getAdminCategories(array $columns = ['*']);
 }

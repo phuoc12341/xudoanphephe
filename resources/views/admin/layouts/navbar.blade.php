@@ -19,10 +19,16 @@
                       <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                   </li>
                   <li class="nav-item">
-                      <a href="index3.html" class="nav-link">Home</a>
+                      <a href="{{ route('admin.categories.index') }}" class="nav-link">Danh mục</a>
                   </li>
                   <li class="nav-item">
-                      <a href="#" class="nav-link">Contact</a>
+                      <a href="{{ route('admin.posts.index') }}" class="nav-link">Bài viết</a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="{{ route('admin.pages.index') }}" class="nav-link">Trang</a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="{{ route('admin.menus.index') }}" class="nav-link">Menu</a>
                   </li>
                   <li class="nav-item dropdown">
                       <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"

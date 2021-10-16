@@ -23,13 +23,16 @@
 
                         <thead>
                             <tr>
-                                <th style="width: 50%">
+                                <th style="width: 5ch">
                                     Tên danh mục
+                                </th>
+                                <th style="width: 10%">
+                                    Thứ tự
                                 </th>
                                 <th style="width: 20%">
                                     Số lượng bài viết
                                 </th>
-                                <th style="width: 30%">
+                                <th style="width: 20%">
                                     Thao tác
                                 </th>
                             </tr>

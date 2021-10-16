@@ -1,0 +1,265 @@
+ul.dd-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  li.dd-item {
+    margin-bottom: 0;
+  }
+
+  .dd-handle {
+    border: 1px solid $line-main;
+    background-color: white;
+    padding: 0;
+    margin: 0 0 8px;
+    border-radius: 5px;
+    height: auto;
+
+    // &.deleted {
+    //   background-color: #FBDDDD !important;
+
+    //   .menu-card-header {
+    //     h6.menu-name {
+    //       color: #ED5353;
+    //     }
+    //   }
+    // }
+
+    // &.hidden {
+    //   .menu-card-header {
+    //     &--left {
+    //       opacity: 0.2;
+    //     }
+    //   }
+    // }
+
+    &:hover {
+      color: #212529;
+    }
+
+    .menu-card-header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 16px 6px 45px;
+      background: #F9F9F9;
+      border-radius: 5px;
+      position: relative;
+
+      &--icon {
+        background: white;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 28px;
+        border-right: 1px solid #DADCE0;
+        border-radius: 5px 0 0 5px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center
+      }
+
+      &--left {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+
+        &:hover {
+          cursor: all-scroll;
+        }
+
+        span.icon-input-box {
+          margin-right: 8px;
+          display: inline-block;
+          line-height: 1;
+        }
+      }
+
+      &--right {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+
+        .toggle-edit-btn {
+          width: 24px;
+          height: 24px;
+          display: inline-block;
+          background-color: transparent;
+          border: none;
+          border-radius: 50%;
+          text-align: center;
+          transition: all 250ms ease;
+          color: #111;
+          position: relative;
+
+          &:hover,
+          &:active,
+          &:focus {
+            cursor: pointer;
+            background-color: $border-gray-light;
+            color: $text;
+          }
+
+          i {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+        }
+
+
+        i.hide {
+          color: $yellow-dark;
+          margin-right: 6px;
+        }
+
+        i.removed {
+          color: #ED5353;
+          margin-right: 6px;
+        }
+      }
+
+      h6.menu-name {
+        margin-bottom: 0;
+        margin-right: 6px;
+      }
+
+      span.created-item {
+        font-weight: normal;
+        margin-left: auto;
+        margin-right: 8px;
+        font-size: 14px;
+        color: $text-second
+      }
+
+      &:hover,
+      &:active,
+      &:focus {
+        cursor: pointer;
+      }
+    }
+
+    .kv-menu-card-body {
+      background-color: white;
+      border-top: solid 1px $line-main;
+      border-radius: 0 0 4px 4px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: stretch;
+      position: relative;
+      padding: 15px;
+      margin: 0;
+      transition: background-color 250ms ease;
+
+      .disabled {
+        cursor: not-allowed;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+      }
+
+      .icon-input-picker {
+        width: 100%;
+        position: relative;
+        display: flex;
+        background-color: $white;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-end;
+
+        .popover-title {background: white !important;}
+        .iconpicker {
+          a {color: $text !important;}
+        }
+
+        div.icon-input-box {
+          background: $light-grey;
+          width: 24px;
+          height: 24px;
+          position: relative;
+          border: 1px solid $line-main;
+          border-radius: 2px;
+          margin: 0 8px 0 0;
+
+          i {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: $text
+          }
+        }
+
+        a.remove-icon {
+          position: absolute;
+          right: 12px;
+          top: 50%;
+          transform: translateY(-50%);
+
+          &:hover,
+          &:active,
+          &:focus {
+            cursor: pointer;
+
+            i {
+              color: $red;
+            }
+          }
+
+          i {
+            font-size: 12px;
+            line-height: 1;
+            color: #999;
+          }
+        }
+      }
+
+      input.icon-picker {
+        flex: 1;
+        text-align: left
+      }
+
+      p.caption {
+        margin-top: 8px;
+        margin-bottom: 0;
+        font-weight: normal;
+        color: #999;
+
+        span {
+          font-weight: 700;
+        }
+      }
+
+      .card-row {
+        padding: 0;
+        margin: 0 0 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    .kv-menu-card-footer {
+      padding: 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+
+      &--left {
+        span {
+          display: inline-block;
+          margin-left: 6px;
+        }
+      }
+    }
+  }
+}
+  

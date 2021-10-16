@@ -133,6 +133,8 @@
             timer: 3000
         });
 
+        var route = @json($routeNames);
+
     </script>
 </body>
 

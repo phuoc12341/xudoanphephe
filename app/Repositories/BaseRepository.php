@@ -49,13 +49,13 @@ class BaseRepository implements BaseRepositoryInterface
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function paginateList(int $page = null, array $columns = ['*'], string $orderBy = 'updated_at', string $orderDes = 'desc')
+    public function paginateList(array $columns = ['*'], string $orderBy = 'updated_at', string $orderDes = 'desc')
     {
         $perPage = config('common.item_per_page');
 
         return $this->model
             ->orderBy($orderBy, $orderDes)
-            ->paginate($perPage, $columns, 'page', $page);
+            ->paginate($perPage, $columns, 'page');
     }
 
     /**

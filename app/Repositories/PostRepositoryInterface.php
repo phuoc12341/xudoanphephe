@@ -13,4 +13,12 @@ interface PostRepositoryInterface extends BaseRepositoryInterface
     public function createQuery();
 
     public function fetchAll(array $columns = ['*']);
+
+    public static function findByIds(array $ids = []);
+
+    public function getFeaturePost();
+
+    public function getPopularPosts();
+
+    public function getLatestPosts();
 }

@@ -8,8 +8,13 @@
                 {{ $category->name }}
             </a>
         </td>
+        <td>
+            <input type="text" class="form-control form-control-border bg-transparent text-center order-counter"
+                placeholder="--" value="{{ $category->order }}" data-old-order="{{ $category->order }}"
+                data-id="{{ $category->id }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '--'">
+        </td>
         <td class="project-state">
-            <span class="badge badge-success">Success</span>
+            {{ $category->totalPost }}
         </td>
         <td class="project-actions text-right">
             <a class="btn btn-outline-warning btn-sm edit-category" href="javascript:void(0)" data-toggle="modal"

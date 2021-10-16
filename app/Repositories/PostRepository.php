@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\Post;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
 
 class PostRepository extends BaseRepository implements PostRepositoryInterface
 {
@@ -36,5 +35,29 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
     public function findById(int $id, array $columns = ['*'])
     {
         return $this->model->with('tags')->find($id, $columns);
+    }
+
+    public static function findByIds(array $ids = [], array $columns = ['*'], string $orderBy = 'updated_at', string $orderDes = 'desc')
+    {
+        return Post::with('tags')
+            ->whereIn('category_id', $ids)
+            ->orderBy($orderBy, $orderDes)
+            ->limit(4)
+            ->get($columns);
+    }
+
+    public function getFeaturePost()
+    {
+        return $this->model->where('order', '<=', 4)->orderBy('order')->get();
+    }
+
+    public function getPopularPosts()
+    {
+        return $this->model->orderBy('view')->limit(5)->get();
+    }
+
+    public function getLatestPosts()
+    {
+        return $this->model->orderBy('updated_at')->limit(6)->get();
     }
 }

@@ -27,6 +27,14 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Repositories\TagRepositoryInterface::class,
             \App\Repositories\TagRepository::class,
         ],
+        'pages' => [
+            \App\Repositories\PageRepositoryInterface::class,
+            \App\Repositories\PageRepository::class,
+        ],
+        'menus' => [
+            \App\Repositories\MenuRepositoryInterface::class,
+            \App\Repositories\MenuRepository::class,
+        ],
     ];
     
     /**

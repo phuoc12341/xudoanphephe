@@ -153,4 +153,90 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
             $categoryId,
         ]);
     }
+
+    public static function getParentAndRecursiveChild(int $categoryId)
+    {
+        $rawQuery = "WITH RECURSIVE parent_cte AS (
+            SELECT
+                id,
+                parent_id,
+                name
+            FROM
+                categories
+            WHERE
+                id = ?
+            AND deleted_at IS NULL
+            UNION ALL
+                (
+                    SELECT
+                        child.id,
+                        child.parent_id,
+                        child.name
+                    FROM
+                        categories AS child
+                    INNER JOIN parent_cte ON child.parent_id = parent_cte.id
+                    WHERE
+                        child.deleted_at IS NULL
+                )
+        ) select * from parent_cte";
+
+        $expression = DB::raw($rawQuery);
+
+        return DB::select($expression, [
+            $categoryId,
+        ]);
+    }
+
+    public function getHomeCategories()
+    {
+        return $this->model->where('order', '<=', 3)->orderBy('order')->get();
+    }
+
+    public static function getTotalPostByCategoryId(int $categoryId)
+    {
+        $rawQuery = "SELECT
+                count(*) AS total_post
+            FROM
+                posts
+            WHERE
+                category_id IN (
+                WITH RECURSIVE parent_cte AS (
+                    SELECT
+                        id,
+                        parent_id,
+                        name
+                    FROM
+                        categories
+                    WHERE
+                        id = ?
+                    AND deleted_at IS NULL
+                    UNION ALL
+                        (
+                            SELECT
+                                child.id,
+                                child.parent_id,
+                                child.name
+                            FROM
+                                categories AS child
+                            INNER JOIN parent_cte ON child.parent_id = parent_cte.id
+                            WHERE
+                                child.deleted_at IS NULL
+                        )
+                ) SELECT
+                    id
+                FROM
+                    parent_cte
+            )";
+
+        $expression = DB::raw($rawQuery);
+
+        return DB::select($expression, [
+            $categoryId,
+        ]);
+    }
+
+    public function getAdminCategories(array $columns = ['*'])
+    {
+        return $this->model->with('childrenAppendTotalPost')->whereNull('parent_id')->get($columns);
+    }
 }

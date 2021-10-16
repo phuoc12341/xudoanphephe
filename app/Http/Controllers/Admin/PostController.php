@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Menu;
 use App\Models\Post;
 use App\Services\CategoryService;
 use App\Services\PostService;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
@@ -32,10 +34,13 @@ class PostController extends Controller
      */
     public function index()
     {
+        // $posts = $this->postService->paginateList(['*'], 'order', 'asc');
         $posts = $this->postService->fetchAll();
+        $categories = $this->categoryService->fetchAll(['id', 'name', 'status']);
 
         $data = [
             'posts' => $posts,
+            'categories' => $categories,
         ];
 
         return view('admin.posts.list', $data);
@@ -67,7 +72,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $params = $request->only('category_id', 'title', 'tags', 'slug', 'description', 'image');
+        $params = $request->only('category_id', 'order', 'title', 'tags', 'slug', 'description', 'image');
         if (array_key_exists('image', $params) && $params['image']->isValid()) {
             $fileName = $params['image']->hashName();
             $params['image']->storeAs('images', $fileName);
@@ -75,18 +80,17 @@ class PostController extends Controller
         } else {
             $params['image'] = null;
         }
-
+        // dd($params['order']);
         $data = [
-            'user_id' => 1,
+            // 'user_id' => 1,
             'title' => $params['title'],
             'category_id' => $params['category_id'],
             'slug' => Str::of($params['title'])->slug('-'),
             'status' => Post::ACTIVE,
             'description' => $params['description'],
             'image' => $params['image'],
+            'order' => $params['order'],
             'view' => 0,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
         ];
 
         $post = $this->postService->store($data);
@@ -105,9 +109,18 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show(Request $request, $slug, $id)
     {
-        //
+        $menus = Menu::whereNull('parent_id')->where('root_id', 1)->get();
+        
+        $post = $this->postService->findById($id);
+
+        $data = [
+            'post' => $post,
+            'menus' => $menus,
+        ];
+
+        return view('web.post-detail', $data);
     }
 
     /**
@@ -145,7 +158,7 @@ class PostController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        $params = $request->only('category_id', 'title', 'tags', 'slug', 'description', 'image', 'is_delete_image');
+        $params = $request->only('category_id', 'order', 'title', 'tags', 'slug', 'description', 'image', 'is_delete_image');
 
         $post = $this->postService->findById($id);
 
@@ -159,6 +172,7 @@ class PostController extends Controller
             'slug' => Str::of($params['title'])->slug('-'),
             'status' => Post::ACTIVE,
             'description' => $params['description'],
+            'order' => $params['order'],
         ];
 
         if (array_key_exists('image', $params) && $params['image']->isValid()) {
@@ -215,5 +229,67 @@ class PostController extends Controller
         }
 
         return response()->json([], Response::HTTP_OK);
+    }
+
+    public function updateOrder(Request $request)
+    {
+        $params = $request->only('id', 'order');
+        $post = $this->postService->findById($params['id']);
+
+        $currentOrder = $post->order;
+
+        $orderParam = $this->reIndexOrder($params['order'], $currentOrder);
+
+        $data = [
+            'order' => $orderParam,
+        ];
+
+        $result = $this->postService->update($params['id'], $data);
+
+        if ($result === false) {
+            return response()->json([], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        return response()->json([], Response::HTTP_OK);
+    }
+
+    private function reIndexOrder(int $orderParam = null, int $currentOrder = null)
+    {
+        $maxOrder = Post::max('order');
+        // dd($maxOrder, ++$maxOrder);
+        if (is_null($maxOrder)) {
+            return 1;
+        }
+
+        if (is_null($orderParam)) {
+            $this->postService->getModel()->where('order', '>', $currentOrder)->decrement('order');
+
+            return $orderParam;
+        }
+
+        if ($orderParam > $maxOrder) {
+            if (is_null($currentOrder)) {
+                return ++$maxOrder;
+            }
+
+            $this->postService->getModel()->where('order', '>', $currentOrder)->decrement('order');
+
+            return $maxOrder;
+        }
+        
+        if ($orderParam <= $maxOrder) {
+            if (is_null($currentOrder)) {
+                $this->postService->getModel()->where('order', '>=', $orderParam)->increment('order');
+
+                return $orderParam;
+            }
+
+            $this->postService->getModel()->where('order', '>=', $orderParam)->where('order', '<', $currentOrder)->increment('order');
+
+            return $orderParam;
+        }
+
+
+        return $orderParam > $maxOrder ? ++$maxOrder : $orderParam;
     }
 }

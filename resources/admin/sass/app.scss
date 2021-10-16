@@ -20,6 +20,11 @@
 @import "helpers/switch";
 @import "helpers/functions";
 
+//Components
+@import "components/dd-list";
+
 //Pages
 @import "pages/page-create";
 @import "pages/page-common";
+@import "pages/menu";
+@import "pages/post";
