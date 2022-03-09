@@ -22,7 +22,19 @@
                                 <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}"
                                     placeholder="Nhập tên trang">
                             </div>
-
+                            <div class="form-group">
+                                <label>Loại trang</label>
+                                <select class="form-control select2" style="width: 100%;">
+                                    @foreach (config('common.page_type') as $value => $text)
+                                        @if ($loop->first)
+                                            <option selected="selected" value="{{ $value }}">{{ $text }}
+                                            </option>
+                                        @else
+                                            <option value="{{ $value }}">{{ $text }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="form-group">
                                 <label for="title">Tự tạo slug</label>
                                 <input type="text" class="form-control" id="title" name="slug"
@@ -56,6 +68,7 @@
     <script src="{{ asset('mix/admin/js/post.js') }}"></script>
     <script>
         $(function() {
+            $('.select2').select2()
             // Summernote
             $('#summernote').summernote({
                 height: 350,

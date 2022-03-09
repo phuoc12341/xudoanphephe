@@ -156,7 +156,7 @@
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->
-
+            {{ $posts->links() }}
         </div>
         <!-- /.col -->
     </div>

@@ -34,8 +34,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        // $posts = $this->postService->paginateList(['*'], 'order', 'asc');
-        $posts = $this->postService->fetchAll();
+        $posts = $this->postService->paginateList(['*'], 'order');
+        // $posts = $this->postService->fetchAll();
         $categories = $this->categoryService->fetchAll(['id', 'name', 'status']);
 
         $data = [
@@ -112,11 +112,13 @@ class PostController extends Controller
     public function show(Request $request, $slug, $id)
     {
         $menus = Menu::whereNull('parent_id')->where('root_id', 1)->get();
-        
+
+        $parentCategories = $this->categoryService->getParentCategories();
         $post = $this->postService->findById($id);
 
         $data = [
             'post' => $post,
+            'parentCategories' => $parentCategories,
             'menus' => $menus,
         ];
 
@@ -237,8 +239,7 @@ class PostController extends Controller
         $post = $this->postService->findById($params['id']);
 
         $currentOrder = $post->order;
-
-        $orderParam = $this->reIndexOrder($params['order'], $currentOrder);
+        $orderParam = $this->postService->reIndexOrder($currentOrder, $params['order']);
 
         $data = [
             'order' => $orderParam,
@@ -251,45 +252,5 @@ class PostController extends Controller
         }
 
         return response()->json([], Response::HTTP_OK);
-    }
-
-    private function reIndexOrder(int $orderParam = null, int $currentOrder = null)
-    {
-        $maxOrder = Post::max('order');
-        // dd($maxOrder, ++$maxOrder);
-        if (is_null($maxOrder)) {
-            return 1;
-        }
-
-        if (is_null($orderParam)) {
-            $this->postService->getModel()->where('order', '>', $currentOrder)->decrement('order');
-
-            return $orderParam;
-        }
-
-        if ($orderParam > $maxOrder) {
-            if (is_null($currentOrder)) {
-                return ++$maxOrder;
-            }
-
-            $this->postService->getModel()->where('order', '>', $currentOrder)->decrement('order');
-
-            return $maxOrder;
-        }
-        
-        if ($orderParam <= $maxOrder) {
-            if (is_null($currentOrder)) {
-                $this->postService->getModel()->where('order', '>=', $orderParam)->increment('order');
-
-                return $orderParam;
-            }
-
-            $this->postService->getModel()->where('order', '>=', $orderParam)->where('order', '<', $currentOrder)->increment('order');
-
-            return $orderParam;
-        }
-
-
-        return $orderParam > $maxOrder ? ++$maxOrder : $orderParam;
     }
 }

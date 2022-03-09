@@ -36,4 +36,9 @@ class Helper
     {
         Log::error(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . PHP_EOL . json_encode(debug_backtrace()));
     }
+
+    public static function getPublicCategoryLink($slug, $id)
+    {
+        return route('categories.show', ['slug' => $slug, 'category' => $id]);
+    }
 }

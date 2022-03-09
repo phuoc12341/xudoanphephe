@@ -1,31 +1,6 @@
-@extends('web.layouts.app')
+<x-layout>
 
-@section('content')
-    <!-- Breadcrumb -->
-    <div class="container">
-        <div class="headline bg0 flex-wr-sb-c p-rl-20 p-tb-8">
-            <div class="f2-s-1 p-r-30 m-tb-6">
-                <a href="index.html" class="breadcrumb-item f1-s-3 cl9">
-                    Home
-                </a>
-
-                <a href="blog-list-01.html" class="breadcrumb-item f1-s-3 cl9">
-                    Blog
-                </a>
-
-                <span class="breadcrumb-item f1-s-3 cl9">
-                    Nulla non interdum metus non laoreet nisi tellus eget aliquam lorem pellentesque
-                </span>
-            </div>
-
-            <div class="pos-relative size-a-2 bo-1-rad-22 of-hidden bocl11 m-tb-6">
-                <input class="f1-s-1 cl6 plh9 s-full p-l-25 p-r-45" type="text" name="search" placeholder="Search">
-                <button class="flex-c-c size-a-1 ab-t-r fs-20 cl2 hov-cl10 trans-03">
-                    <i class="zmdi zmdi-search"></i>
-                </button>
-            </div>
-        </div>
-    </div>
+    <x-breadcrumb type="post" :menuItem="$post"></x-breadcrumb>
 
     <!-- Content -->
     <section class="bg0 p-b-140 p-t-10">
@@ -35,7 +10,8 @@
                     <div class="p-r-10 p-r-0-sr991">
                         <!-- Blog Detail -->
                         <div class="p-b-70">
-                            <a href="#" class="f1-s-10 cl2 hov-cl10 trans-03 text-uppercase">
+                            <a href="{{ $post->category->link }}"
+                                class="f1-s-10 cl2 hov-cl10 trans-03 text-uppercase">
                                 {{ $post->category->name }}
                             </a>
 
@@ -152,46 +128,29 @@
                 <!-- Sidebar -->
                 <div class="col-md-10 col-lg-4 p-b-30">
                     <div class="p-l-10 p-rl-0-sr991 p-t-70">
-                        <!-- Category -->
-                        <div class="p-b-60">
-                            <div class="how2 how2-cl4 flex-s-c">
-                                <h3 class="f1-m-2 cl3 tab01-title">
-                                    Category
-                                </h3>
+                        @isset($parentCategories)
+                            <!-- Category -->
+                            <div class="p-b-60">
+                                <div class="p-b-60">
+                                    <div class="how2 how2-cl4 flex-s-c">
+                                        <h3 class="f1-m-2 cl3 tab01-title">
+                                            Category
+                                        </h3>
+                                    </div>
+                                    <ul class="p-t-35">
+                                        @foreach ($parentCategories as $category)
+                                            <li class="how-bor3 p-rl-4">
+                                                <a href="#"
+                                                    class="dis-block f1-s-10 text-uppercase cl2 hov-cl10 trans-03 p-tb-13">
+                                                    {{ $category->name }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             </div>
+                        @endisset
 
-                            <ul class="p-t-35">
-                                <li class="how-bor3 p-rl-4">
-                                    <a href="#" class="dis-block f1-s-10 text-uppercase cl2 hov-cl10 trans-03 p-tb-13">
-                                        Fashion
-                                    </a>
-                                </li>
-
-                                <li class="how-bor3 p-rl-4">
-                                    <a href="#" class="dis-block f1-s-10 text-uppercase cl2 hov-cl10 trans-03 p-tb-13">
-                                        Beauty
-                                    </a>
-                                </li>
-
-                                <li class="how-bor3 p-rl-4">
-                                    <a href="#" class="dis-block f1-s-10 text-uppercase cl2 hov-cl10 trans-03 p-tb-13">
-                                        Street Style
-                                    </a>
-                                </li>
-
-                                <li class="how-bor3 p-rl-4">
-                                    <a href="#" class="dis-block f1-s-10 text-uppercase cl2 hov-cl10 trans-03 p-tb-13">
-                                        Life Style
-                                    </a>
-                                </li>
-
-                                <li class="how-bor3 p-rl-4">
-                                    <a href="#" class="dis-block f1-s-10 text-uppercase cl2 hov-cl10 trans-03 p-tb-13">
-                                        DIY & Crafts
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
 
                         <!-- Archive -->
                         <div class="p-b-37">
@@ -450,4 +409,4 @@
             </div>
         </div>
     </section>
-@endsection
+</x-layout>

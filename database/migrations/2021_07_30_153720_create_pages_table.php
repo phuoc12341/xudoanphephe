@@ -15,6 +15,7 @@ class CreatePagesTable extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
+            $table->unsignedTinyInteger('type')->default(0);
             $table->string('title', 100);
             $table->string('slug', 125);
             $table->text('description');

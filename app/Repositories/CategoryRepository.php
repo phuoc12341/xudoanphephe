@@ -187,6 +187,41 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         ]);
     }
 
+    public function getRecursiveParent(int $categoryId)
+    {
+        $rawQuery = "WITH RECURSIVE parent_cte AS (
+            SELECT
+                id,
+                parent_id,
+                name,
+                slug
+            FROM
+                categories
+            WHERE
+                id = ?
+            AND deleted_at IS NULL
+            UNION ALL
+                (
+                    SELECT
+                        parent.id,
+                        parent.parent_id,
+                        parent.name,
+                        parent.slug
+                    FROM
+                        categories AS parent
+                    INNER JOIN parent_cte ON parent.id = parent_cte.parent_id
+                    WHERE
+                        deleted_at IS NULL
+                )
+        ) select * from parent_cte";
+
+        $expression = DB::raw($rawQuery);
+
+        return DB::select($expression, [
+            $categoryId,
+        ]);
+    }
+
     public function getHomeCategories()
     {
         return $this->model->where('order', '<=', 3)->orderBy('order')->get();
@@ -238,5 +273,10 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     public function getAdminCategories(array $columns = ['*'])
     {
         return $this->model->with('childrenAppendTotalPost')->whereNull('parent_id')->get($columns);
+    }
+
+    public function getParentCategories(array $columns = ['*'])
+    {
+        return $this->model->isParent()->get($columns);
     }
 }

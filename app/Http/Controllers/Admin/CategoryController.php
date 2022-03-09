@@ -9,17 +9,21 @@ use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Models\Menu;
 use App\Services\CategoryService;
+use App\Services\PostService;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\UrlWindow;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {
     protected $categoryService;
+    protected $postService;
 
-    public function __construct(CategoryService $categoryService)
+    public function __construct(CategoryService $categoryService, PostService $postService)
     {
         $this->categoryService = $categoryService;
+        $this->postService = $postService;
     }
 
     /**
@@ -86,9 +90,32 @@ class CategoryController extends Controller
         
         $category = $this->categoryService->findById($id);
 
+        $parentAndRecursiveCategoryIds = $this->categoryService->getParentAndRecursiveChildIds($id);
+        $featureCategoriesPosts = $this->postService->getFeatureCategoriesPosts($parentAndRecursiveCategoryIds);
+        $posts = $this->postService->getCategoryPostsWithoutFeature($parentAndRecursiveCategoryIds);
+        $popularPosts = $this->postService->getCategoryPopularPosts($parentAndRecursiveCategoryIds);
+        // dd($popularPosts);
+
+        $window = UrlWindow::make($posts);
+        // dd($window);
+
+        $elements = array_filter([
+            $window['first'],
+            is_array($window['slider']) ? '...' : null,
+            $window['slider'],
+            is_array($window['last']) ? '...' : null,
+            $window['last'],
+        ]);
+
+        // dd($test);
+        
         $data = [
-            'categories' => $category,
+            'category' => $category,
+            'featurePosts' => $featureCategoriesPosts,
             'topMenu' => $topMenu,
+            'posts' => $posts,
+            'elements' => $elements,
+            'popularPosts' => $popularPosts,
         ];
 
         return view('web.category-detail', $data);

@@ -52,7 +52,7 @@
                                             href="{{ route('admin.menus.edit', ['page' => $menu->id]) }}">
                                             <i class=" fas fa-pencil-alt"></i>
                                         </a>
-                                        <a class="btn btn-outline-danger btn-sm delete-page" href="javascript:void(0)"
+                                        <a class="btn btn-outline-danger btn-sm delete-menu" href="javascript:void(0)"
                                             data-id={{ $menu->id }}>
                                             <i class="fas fa-trash"></i>
                                         </a>
@@ -76,5 +76,10 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('mix/admin/js/page.js') }}"></script>
+    <script>
+        var route = @json($routeNames)
+
+    </script>
+    <script src="{{ asset('mix/admin/js/menu.js') }}"></script>
+
 @endpush

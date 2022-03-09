@@ -102,7 +102,7 @@ const Post = {
             console.log(response)
             if (response.status = 200) {
                 notify('success', 'Thay đổi thứ tự bài viết thành công')
-                // reloadPage()
+                reloadPage()
             }
         } catch (error) {
             notify('error', 'Không thể thay đổi thứ tự bài viết này')

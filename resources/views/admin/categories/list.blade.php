@@ -60,9 +60,6 @@
     <!-- SweetAlert2 -->
     <script src="{{ asset('admin/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <script>
-        var route = {!! json_encode($routeNames) !!}
-        console.log(route)
-
         function formatState(state) {
             if (!state.id) {
                 return state.text;

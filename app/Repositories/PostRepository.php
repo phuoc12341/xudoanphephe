@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Helper\Helper;
 use App\Models\Post;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -59,5 +60,77 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
     public function getLatestPosts()
     {
         return $this->model->orderBy('updated_at')->limit(6)->get();
+    }
+
+    public function getPostOrderMax()
+    {
+        return $this->model->max('order');
+    }
+
+    public function deleteCurrentOrder(int $currentOrder = null)
+    {
+        return $this->model->where('order', '>', $currentOrder)->decrement('order');
+    }
+
+    public function addNewOrderOutOfRangeAvailableOrder(int $newOrder = null)
+    {
+        return $this->model->where('order', '>=', $newOrder)->increment('order');
+    }
+
+    public function increaseCurrentOrder(int $currentOrder = null, int $newOrder)
+    {
+        return $this->model->where('order', '>', $currentOrder)->where('order', '<=', $newOrder)->decrement('order');
+    }
+
+    public function decreaseCurrentOrder(int $currentOrder = null, int $newOrder)
+    {
+        return $this->model->where('order', '>=', $newOrder)->where('order', '<', $currentOrder)->increment('order');
+    }
+
+    public function paginateList(array $columns = ['*'], string $orderBy = 'updated_at', string $orderDes = 'desc')
+    {
+        $perPage = config('common.item_per_page');
+
+        return $this->model
+            ->orderByRaw("-`{$orderBy}` {$orderDes}")
+            ->paginate($perPage, $columns);
+    }
+
+    public function getCategoryPostsWithoutFeature(array $categoryIds = [], array $columns = ['*'], string $orderBy = 'updated_at', string $orderDes = 'desc')
+    {
+        $perPage = config('common.item_per_page');
+        $postCount = $this->model->count();
+        $perPage = 4;
+
+        $postIds = $this->model
+            ->whereIn('category_id', $categoryIds)
+            ->orderBy($orderBy, $orderDes)
+            ->skip(5)
+            ->take($postCount - 5)
+            ->pluck('id');
+        
+        return $this->model
+            ->whereIn('category_id', $categoryIds)
+            ->orderBy($orderBy, $orderDes)
+            ->whereIn('id', $postIds)
+            ->paginate($perPage, $columns, 'page');
+    }
+
+    public function getFeatureCategoriesPosts(array $categoryIds = [], array $columns = ['*'], string $orderBy = 'updated_at', string $orderDes = 'desc')
+    {
+        return $this->model
+            ->whereIn('category_id', $categoryIds)
+            ->orderBy($orderBy, $orderDes)
+            ->limit(5)
+            ->get();
+    }
+
+    public function getCategoryPopularPosts(array $categoryIds = [])
+    {
+        return $this->model
+            ->orderBy('view')
+            ->whereIn('category_id', $categoryIds)
+            ->limit(5)
+            ->get();
     }
 }

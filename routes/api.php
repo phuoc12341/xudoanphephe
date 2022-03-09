@@ -43,5 +43,6 @@ Route::prefix('v1')->group(function () {
     Route::prefix('menus')->name('menus.')->group(function () {
         Route::post('/', [MenuController::class, 'store'])->name('store');
         Route::patch('{id}', [MenuController::class, 'update'])->name('update');
+        Route::delete('{id}', [MenuController::class, 'destroy'])->name('destroy');
     });
 });

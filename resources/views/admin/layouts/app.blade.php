@@ -32,7 +32,9 @@
     <div class="wrapper">
         @include('admin.layouts.navbar')
 
-        @include('admin.layouts.sidebar')
+        {{-- @include('admin.layouts.sidebar') --}}
+
+        <input id="route-name" type="hidden" value='@json($routeNames)'>
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -98,8 +100,13 @@
     <!-- SweetAlert2 -->
     <script src="{{ asset('admin/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 
-    @stack('scripts')
+    <script>
+        var route = $('#route-name').val()
+        console.log(route)
 
+    </script>
+
+    @stack('scripts')
 
     <!-- AdminLTE App -->
     <script src="{{ asset('admin/dist/js/adminlte.min.js') }}"></script>
@@ -133,7 +140,7 @@
             timer: 3000
         });
 
-        var route = @json($routeNames);
+        var route = $('#route-name').val();
 
     </script>
 </body>

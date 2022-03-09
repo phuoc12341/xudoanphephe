@@ -21,4 +21,20 @@ interface PostRepositoryInterface extends BaseRepositoryInterface
     public function getPopularPosts();
 
     public function getLatestPosts();
+
+    public function getPostOrderMax();
+
+    public function deleteCurrentOrder(int $currentOrder = null);
+
+    public function addNewOrderOutOfRangeAvailableOrder(int $newOrder = null);
+
+    public function increaseCurrentOrder(int $currentOrder = null, int $newOrder);
+
+    public function decreaseCurrentOrder(int $currentOrder = null, int $newOrder);
+
+    public function getCategoryPostsWithoutFeature(array $categoryIds = [], array $columns = ['*'], string $orderBy = 'updated_at', string $orderDes = 'desc');
+
+    public function getFeatureCategoriesPosts(array $categoryIds = [], array $columns = ['*'], string $orderBy = 'updated_at', string $orderDes = 'desc');
+
+    public function getCategoryPopularPosts(array $categoryIds = []);
 }

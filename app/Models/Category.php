@@ -115,4 +115,9 @@ class Category extends Model
     {
         return $this->total_post = CategoryService::getTotalPostByCategoryId($this->id);
     }
+
+    public function scopeIsParent($query)
+    {
+        return $query->whereNull('parent_id');
+    }
 }

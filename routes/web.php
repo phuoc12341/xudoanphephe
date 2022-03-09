@@ -34,7 +34,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
     Route::prefix('categories')->name('categories.')->group(function () {
         Route::get('/', [CategoryController::class, 'index'])->name('index');
     });

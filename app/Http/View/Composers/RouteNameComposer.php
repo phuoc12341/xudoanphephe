@@ -32,6 +32,7 @@ class RouteNameComposer
             'menus' => [
                 'store' => route('menus.store'),
                 'update' => route('menus.update', ['id' => '?']),
+                'destroy' => route('menus.destroy', ['id' => '?']),
             ],
         ];
     }

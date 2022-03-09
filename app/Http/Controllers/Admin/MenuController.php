@@ -175,8 +175,13 @@ class MenuController extends Controller
      * @param  \App\Models\Menu  $menu
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Menu $menu)
+    public function destroy(int $id)
     {
-        //
+        $result = $this->menuService->deleteMenuByid($id);
+        if ($result == false) {
+            return response()->json([], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        return response()->json([], Response::HTTP_OK);
     }
 }

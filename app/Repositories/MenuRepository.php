@@ -29,7 +29,7 @@ class MenuRepository extends BaseRepository implements MenuRepositoryInterface
 
     public function deleteMenuByid(int $id)
     {
-        return $this->model->where('root_id', $id)->delete();
+        return $this->model->where('root_id', $id)->orWhere('id', $id)->delete();
     }
     
     public function getTopMenu()

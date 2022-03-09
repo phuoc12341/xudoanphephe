@@ -17,6 +17,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/util.css') }}">
     <!--===============================================================================================-->
 
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
+    <!--===============================================================================================-->
+
     <style>
         .custom-dropdown-menu li {
             position: relative;
@@ -83,19 +86,24 @@
         }
 
         .image-cover {
-            background: #34495e;
-            border: 1px solid #34495e;
+            background: transparent;
+            /* border: 1px solid #34495e; */
             /* width: 200px; */
             height: 200px;
             object-fit: contain;
             object-position: center;
         }
 
+        .breadcrumb-item {
+            float: left;
+        }
+
+        .breadcrumb-item+.breadcrumb-item::before {
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+        }
+
     </style>
-
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
-    <!--===============================================================================================-->
-
 
 </head>
 

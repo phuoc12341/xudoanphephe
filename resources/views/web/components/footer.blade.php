@@ -12,13 +12,12 @@
 
                         <div>
                             <p class="f1-s-1 cl11 p-b-16">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tempor magna eget
-                                elit efficitur, at accumsan sem placerat. Nulla tellus libero, mattis nec molestie at,
-                                facilisis ut turpis. Vestibulum dolor metus, tincidunt eget odio
+                                Địa chỉ: 180/2 Nguyễn Lương Bằng, P. Quang Trung, Ðống Ða, Hà Nội
+
                             </p>
 
                             <p class="f1-s-1 cl11 p-b-16">
-                                Any questions? Call us on (+1) 96 716 6879
+                                Điện thoại: 0123456789
                             </p>
 
                             <div class="p-t-15">
@@ -84,13 +83,15 @@
                         </div>
 
                         <ul class="m-t--12">
-                            @foreach ($footerMenu->child as $menu)
-                                <li class="how-bor1 p-rl-5 p-tb-10">
-                                    <a href="{{ $menu->link }}" class="f1-s-5 cl11 hov-cl10 trans-03 p-tb-8 how-txt2">
-                                        {{ $menu->name }}
-                                    </a>
-                                </li>
-                            @endforeach
+                            @isset($footerMenu)
+                                @foreach ($footerMenu->child as $menu)
+                                    <li class="how-bor1 p-rl-5 p-tb-10">
+                                        <a href="{{ $menu->link }}" class="f1-s-5 cl11 hov-cl10 trans-03 p-tb-8 how-txt2">
+                                            {{ $menu->name }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            @endisset
                         </ul>
                     </div>
                 </div>
@@ -100,16 +101,13 @@
         <div class="bg11">
             <div class="container size-h-4 flex-c-c p-tb-15">
                 <span class="f1-s-1 cl0 txt-center">
-                    Copyright © 2018
+                    Copyright © 1992-<script>
+                        document.write(new Date().getFullYear());
+
+                    </script>.
 
                     <a href="#" class="f1-s-1 cl10 hov-link1">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;<script>
-                            document.write(new Date().getFullYear());
-
-                        </script> All rights reserved | This template is made with <i class="fa fa-heart"
-                            aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Xứ đoàn thiếu nhi Thánh Thể Phê-rô Phao-lô Giáo xứ Thái Hà
                 </span>
             </div>
         </div>

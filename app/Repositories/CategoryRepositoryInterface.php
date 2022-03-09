@@ -27,4 +27,8 @@ interface CategoryRepositoryInterface extends BaseRepositoryInterface
     public static function getTotalPostByCategoryId(int $categoryId);
 
     public function getAdminCategories(array $columns = ['*']);
+
+    public function getParentCategories(array $columns = ['*']);
+
+    public function getRecursiveParent(int $categoryId);
 }

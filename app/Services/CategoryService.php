@@ -62,4 +62,14 @@ class CategoryService extends BaseService
     {
         return $this->categoryRepository->getAdminCategories(['id', 'name', 'status', 'order']);
     }
+
+    public function getParentCategories()
+    {
+        return $this->categoryRepository->getParentCategories();
+    }
+
+    public function getRecursiveParent(int $categoryId)
+    {
+        return $this->categoryRepository->getRecursiveParent($categoryId);
+    }
 }
