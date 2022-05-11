@@ -101,7 +101,11 @@
     <script src="{{ asset('admin/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 
     <script>
-        var route = $('#route-name').val()
+        // var route = $('#route-name').val()
+        // console.log(route)
+
+        var route = {!! json_encode($routeNames) !!};
+
         console.log(route)
 
     </script>
@@ -140,7 +144,7 @@
             timer: 3000
         });
 
-        var route = $('#route-name').val();
+        // var route = $('#route-name').val();
 
     </script>
 </body>

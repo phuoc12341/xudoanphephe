@@ -222,6 +222,10 @@
 @endsection
 
 @push('scripts')
+    <script>
+        // var route = @json($routeNames)
+
+    </script>
     <script src="{{ asset('mix/admin/js/menu.js') }}"></script>
     <script src="">
         jQuery(document).ready(function() {

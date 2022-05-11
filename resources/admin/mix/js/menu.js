@@ -386,19 +386,19 @@ const Menu = {
             const response = await ApiServicePatch(getRoute(route.menus.update, [menuId]), paramsObj)
 
             console.log(response)
-            // if (response.data.code === 1) {
-            //     notify("success", response.data.message);
-            //     $(window).unbind("beforeunload");
-            //     setTimeout(function() {
-            //         if ('referrer' in document) {
-            //             window.location = document.referrer;
-            //         } else {
-            //             window.history.back();
-            //         }
-            //     }, 1000);
-            // } else {
-            //     notify("error", response.data.message);
-            // }
+            if (response.data.code === 1) {
+                notify("success", response.data.message);
+                $(window).unbind("beforeunload");
+                setTimeout(function() {
+                    if ('referrer' in document) {
+                        window.location = document.referrer;
+                    } else {
+                        window.history.back();
+                    }
+                }, 1000);
+            } else {
+                notify("error", response.data.message);
+            }
         });
     },
 
@@ -411,33 +411,34 @@ const Menu = {
             }
             $(this).attr("disabled", true)
             let tableContent = $("#menu-setting").nestable("serialize");
-            console.log(tableContent)
             let request = {
-                id: $("#menu-id").val(),
                 active_top: $("#top-menu").is(":checked"),
                 active_footer: $("#footer-menu").is(":checked"),
                 name: menuName,
                 table_content: tableContent
             };
+            // console.log(request)
+            // return
+            // console.log(route.menus.store)
             const response = await ApiServicePost(
                 route.menus.store,
                 request
             );
 
             console.log(response)
-            // if (response.data.code === 1) {
-            //     notify("success", response.data.message);
-            //     $(window).unbind("beforeunload");
-            //     setTimeout(function() {
-            //         if ('referrer' in document) {
-            //             window.location = document.referrer;
-            //         } else {
-            //             window.history.back();
-            //         }
-            //     }, 1000);
-            // } else {
-            //     notify("error", response.data.message);
-            // }
+            if (response.data.code === 1) {
+                notify("success", response.data.message);
+                $(window).unbind("beforeunload");
+                setTimeout(function() {
+                    if ('referrer' in document) {
+                        window.location = document.referrer;
+                    } else {
+                        window.history.back();
+                    }
+                }, 1000);
+            } else {
+                notify("error", response.data.message);
+            }
         });
     },
 

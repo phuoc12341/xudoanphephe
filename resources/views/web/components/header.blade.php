@@ -18,19 +18,19 @@
                     </span>
 
                     <a href="#" class="left-topbar-item">
-                        About
+                        Giới thiệu
                     </a>
 
                     <a href="#" class="left-topbar-item">
-                        Contact
+                        Liên hệ
                     </a>
 
                     <a href="{{ route('register') }}" class="left-topbar-item">
-                        Sing up
+                        Đăng ký
                     </a>
 
                     <a href="{{ route('login') }}" class="left-topbar-item">
-                        Log in
+                        Đăng nhập
                     </a>
                 </div>
 
@@ -62,7 +62,7 @@
         <div class="wrap-header-mobile">
             <!-- Logo moblie -->
             <div class="logo-mobile">
-                <a href="index.html"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
+                <a href="/"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
             </div>
 
             <!-- Button show menu -->
@@ -92,19 +92,19 @@
 
                 <li class="left-topbar">
                     <a href="#" class="left-topbar-item">
-                        About
+                        Giới thiệu
                     </a>
 
                     <a href="#" class="left-topbar-item">
-                        Contact
+                        Liên hệ
                     </a>
 
                     <a href="#" class="left-topbar-item">
-                        Sing up
+                        Đăng ký
                     </a>
 
                     <a href="#" class="left-topbar-item">
-                        Log in
+                        Đăng nhập
                     </a>
                 </li>
 
